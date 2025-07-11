@@ -1,7 +1,21 @@
 function fetchBooks() {
-  // To pass the tests, don't forget to return your fetch!
-  
+  // ① return the Promise
+  return fetch("https://anapioficeandfire.com/api/books")
+    .then((response) => {
+      // ② only ONE call to response.json()
+      return response.json();
+    })
+    .then((books) => {
+      renderBooks(books);   // side effect: update the DOM
+      return books;         // forward data to whoever awaits it
+    })
+    .catch((error) => {
+      console.error("Error fetching books:", error);
+      throw error;          // keep the Promise in a rejected state
+    });
 }
+
+
 
 function renderBooks(books) {
   const main = document.querySelector('main');
